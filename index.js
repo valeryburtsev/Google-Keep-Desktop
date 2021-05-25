@@ -34,6 +34,7 @@ function createWindow() {
 
   mainWindow.webContents.on('did-finish-load', function() {
     mainWindow.webContents.insertCSS('#ognwrapper {-webkit-app-region: drag;}')
+    mainWindow.webContents.insertCSS('#gbwa {display:none}')
     if (process.platform == 'darwin') {
       mainWindow.webContents.insertCSS('header, .PvRhvb-bN97Pc, #ognwrapper {margin-top: 24px;}')
     } 
