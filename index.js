@@ -45,8 +45,9 @@ function createWindow() {
     event.preventDefault();
     const switchUserRegex = /keep\.google\.com\/u\/.*\/\?authuser\=.*/gm
     const switchUser = url.match(switchUserRegex);
+    const switchUser2 = url.match(/accounts.google.com\/AccountChooser/gm)
     const addSession = url.match(/accounts.google.com\/AddSession/gm);
-    if (switchUser) {
+    if (switchUser || switchUser2) {
       return mainWindow.loadURL(url, { userAgent })
     }
     if (addSession) {
@@ -65,6 +66,14 @@ function createWindow() {
     }
     shell.openExternal(url);
   });
+
+  mainWindow.webContents.on("will-redirect", function(event, url) {
+    const redirect = url.match(/myaccount.google.com/gm)
+    if(redirect) {
+      event.preventDefault()
+      mainWindow.loadURL('https://keep.google.com/', { userAgent });
+    }
+  })
 
   mainWindow.on('close', function (event) {
     if (app.quitting) {

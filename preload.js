@@ -37,3 +37,4 @@ document.addEventListener("DOMContentLoaded", function () {
   windowTopBar.style.webkitAppRegion = "drag"
   document.body.appendChild(windowTopBar)
 });
+
