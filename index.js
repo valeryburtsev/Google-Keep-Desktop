@@ -32,18 +32,38 @@ function createWindow() {
 
   mainWindow.loadURL('https://keep.google.com/', { userAgent });
 
-  mainWindow.webContents.on('did-finish-load', function() {
+  mainWindow.webContents.on('did-finish-load', function () {
     mainWindow.webContents.insertCSS('#ognwrapper {-webkit-app-region: drag;}')
     mainWindow.webContents.insertCSS('#gbwa {display:none}')
     if (process.platform == 'darwin') {
       mainWindow.webContents.insertCSS('header, .PvRhvb-bN97Pc, #ognwrapper {margin-top: 24px;}')
-    } 
- });
+    }
+  });
 
 
   mainWindow.webContents.on('new-window', (event, url) => {
-    shell.openExternal(url);
     event.preventDefault();
+    const switchUserRegex = /keep\.google\.com\/u\/.*\/\?authuser\=.*/gm
+    const switchUser = url.match(switchUserRegex);
+    const addSession = url.match(/accounts.google.com\/AddSession/gm);
+    if (switchUser) {
+      return mainWindow.loadURL(url, { userAgent })
+    }
+    if (addSession) {
+      let authWindow = new BrowserWindow({ show: false })
+      authWindow.on("closed", function () { authWindow = null })
+      authWindow.loadURL(url, { userAgent })
+      authWindow.show()
+      authWindow.webContents.on('will-redirect', function (event, newUrl) {
+        const redirect = newUrl.match(switchUserRegex)
+        if(redirect) {
+          authWindow.close()
+          return mainWindow.loadURL(newUrl, {userAgent})
+        }
+      });
+      return
+    }
+    shell.openExternal(url);
   });
 
   mainWindow.on('close', function (event) {
