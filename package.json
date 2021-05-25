@@ -1,8 +1,8 @@
 {
-  "name": "com.valeryburtsev.googlemessages",
-  "productName": "Google Messages",
+  "name": "com.valeryburtsev.googlekeep",
+  "productName": "Google Keep",
   "version": "1.0.0",
-  "description": "Google Messages Desktop App",
+  "description": "Google Keep Desktop App",
   "main": "index.js",
   "scripts": {
     "start": "electron .",

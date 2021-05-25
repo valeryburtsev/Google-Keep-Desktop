@@ -1,10 +1,10 @@
-const { app, BrowserWindow, ipcMain, Notification, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require("path");
 
 let mainWindow;
 let notificationCounter = 0;
 
-const userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.131 Safari/537.36';
+const userAgent = 'Chrome';
 const windowStateKeeper = require('electron-window-state');
 
 
@@ -21,7 +21,6 @@ function createWindow() {
     'width': mainWindowState.width,
     'height': mainWindowState.height,
     titleBarStyle: process.platform == "darwin" ? 'hiddenInset' : '',
-    icon: path.join(__dirname, 'build/icon.png'),
     webPreferences: {
       contextIsolation: false,
       preload: path.join(__dirname, 'preload.js'),
@@ -31,15 +30,13 @@ function createWindow() {
 
   mainWindowState.manage(mainWindow);
 
-  mainWindow.loadURL('http://messages.google.com/web/', { userAgent });
- // mainWindow.loadFile('test.html', { userAgent });
+  mainWindow.loadURL('https://keep.google.com/', { userAgent });
 
   mainWindow.webContents.on('did-finish-load', function() {
-    mainWindow.webContents.insertCSS('.main-nav-header, .header {-webkit-app-region: drag;}')
+    mainWindow.webContents.insertCSS('#ognwrapper {-webkit-app-region: drag;}')
     if (process.platform == 'darwin') {
-      mainWindow.webContents.insertCSS('.main-nav-header {margin-top: 16px;}')
-      mainWindow.webContents.insertCSS('@media (max-width: 560px) { .header { margin-top: 16px; } }')
-    }
+      mainWindow.webContents.insertCSS('header, .PvRhvb-bN97Pc, #ognwrapper {margin-top: 24px;}')
+    } 
  });
 
 
