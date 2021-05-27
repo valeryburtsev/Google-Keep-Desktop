@@ -13,7 +13,7 @@
   "author": "Valery Burtsev",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^12.0.1",
+    "electron": "^13.0.1",
     "electron-builder": "^22.10.5"
   },
   "dependencies": {
